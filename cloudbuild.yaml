@@ -25,11 +25,18 @@ steps:
       - 'asia-south1-docker.pkg.dev/project-eea66d71-2265-4f45-8fa/new01/nginx:$COMMIT_SHA'
       - '--region'
       - 'asia-south1'
+      - '--project'
+      - 'project-eea66d71-2265-4f45-8fa'
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
       - '--port'
       - '80'
+      - '--service-account'
+      - '262203680971-compute@developer.gserviceaccount.com'
 
 images:
   - 'asia-south1-docker.pkg.dev/project-eea66d71-2265-4f45-8fa/new01/nginx:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
