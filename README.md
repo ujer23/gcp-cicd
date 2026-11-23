@@ -1,1 +1,1 @@
-Testing new Artifact Registry repository
+Testing new Art
