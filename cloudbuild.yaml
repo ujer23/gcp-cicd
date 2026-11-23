@@ -1,0 +1,35 @@
+
+steps:
+  # Step 1: Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'asia-south1-docker.pkg.dev/project-eea66d71-2265-4f45-8fa/new-ar/nginx:$COMMIT_SHA'
+      - '.'
+
+  # Step 2: Push image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'asia-south1-docker.pkg.dev/project-eea66d71-2265-4f45-8fa/new-ar/nginx:$COMMIT_SHA'
+
+  # Step 3: Deploy image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'nginx'
+      - '--image'
+      - 'asia-south1-docker.pkg.dev/project-eea66d71-2265-4f45-8fa/new-ar/nginx:$COMMIT_SHA'
+      - '--region'
+      - 'asia-south1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '80'
+
+images:
+  - 'asia-south1-docker.pkg.dev/project-eea66d71-2265-4f45-8fa/new-ar/nginx:$COMMIT_SHA'
